@@ -17,6 +17,7 @@ import net.serenitybdd.screenplay.actions.Open;
 import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
 import net.serenitybdd.screenplay.questions.WebElementQuestion;
 import net.thucydides.core.annotations.Managed;
+import net.thucydides.core.annotations.Steps;
 import startsharp.navigation.StartSharp;
 import startsharp.task.Login.IniciarSesion;
 import startsharp.task.Meeting.CreateMeeting;
@@ -28,6 +29,8 @@ public class CreateMeetingUnitSteps {
 
 	@Managed(driver = "chrome")
 	private WebDriver navegador;
+	
+	//@Steps
 	private Actor actor = Actor.named("Global");
 	private StartSharp startSharp = new StartSharp();
 	DataTable datosFormulario;

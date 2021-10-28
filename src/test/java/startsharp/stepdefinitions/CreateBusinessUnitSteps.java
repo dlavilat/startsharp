@@ -16,6 +16,7 @@ import net.serenitybdd.screenplay.actions.Open;
 import net.serenitybdd.screenplay.matchers.WebElementStateMatchers;
 import net.serenitybdd.screenplay.questions.WebElementQuestion;
 import net.thucydides.core.annotations.Managed;
+import net.thucydides.core.annotations.Steps;
 import startsharp.navigation.StartSharp;
 import startsharp.task.BusinessUnit.AccessBusinessUnit;
 import startsharp.task.BusinessUnit.CreateBusinessUnit;
@@ -27,6 +28,8 @@ public class CreateBusinessUnitSteps {
 
 	@Managed(driver = "chrome")
 	private WebDriver navegador;
+	
+	//@Steps
 	private Actor actor = Actor.named("Global");
 	private StartSharp startSharp = new StartSharp();
 
@@ -71,8 +74,10 @@ public class CreateBusinessUnitSteps {
 	@Then("la unidad debe agregarse a la tabla")
 	public void debeAgregarseALaTabla() {
 
-		actor.should(EventualConsequence.eventually(GivenWhenThen.seeThat(WebElementQuestion.the(TXT_ASERTION_NAME),
-				WebElementStateMatchers.containsText("UnitTest")))
+		actor.should(
+				EventualConsequence.eventually(
+						GivenWhenThen.seeThat(WebElementQuestion.the(TXT_ASERTION_NAME),
+											  WebElementStateMatchers.containsText("UnitTest")))
 
 		);
 

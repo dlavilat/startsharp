@@ -25,28 +25,33 @@
             <version>${serenity.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+		<dependency>
             <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-cucumber6</artifactId>
-            <version>${serenity.cucumber.version}</version>
-            <scope>test</scope>
+            <artifactId>serenity-junit</artifactId>
+            <version>${serenity.version}</version>							   
         </dependency>
-        <dependency>
+		<dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-screenplay</artifactId>
             <version>${serenity.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+		<dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-screenplay-webdriver</artifactId>
             <version>${serenity.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+		<dependency>
             <groupId>net.serenity-bdd</groupId>
             <artifactId>serenity-ensure</artifactId>
             <version>${serenity.version}</version>
+            <scope>test</scope>	
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-cucumber6</artifactId>
+            <version>${serenity.cucumber.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -74,7 +79,13 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
                 <configuration>
-                    <skip>true</skip>
+                	<includes>
+                		<include>**/BusinessUnitRunner.java</include>                		
+                	</includes>
+                	<parallel>methods</parallel>
+                	<threadCount>1</threadCount>
+                	<useUnlimitedThreads>false</useUnlimitedThreads>
+                    <!-- <skip>true</skip> -->
                 </configuration>
             </plugin>
             <plugin>
@@ -86,8 +97,10 @@
                         <include>**/Test*.java</include>
                         <include>**/*TestSuite.java</include>
                         <include>**/When*.java</include>
+                        <!-- <include>**/features/**/*.java</include>
+                        <include>**/*Steps.java</include> -->
                     </includes>
-                    <systemPropertyVariables>
+                   <systemPropertyVariables>
                         <webdriver.base.url>${webdriver.base.url}</webdriver.base.url>
                     </systemPropertyVariables>
                     <parallel>classes</parallel>
@@ -118,14 +131,7 @@
                 <version>${serenity.maven.version}</version>
                 <configuration>
                     <tags>${tags}</tags>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.serenity-bdd</groupId>
-                        <artifactId>serenity-core</artifactId>
-                        <version>${serenity.version}</version>
-                    </dependency>
-                </dependencies>
+                </configuration>                
                 <executions>
                     <execution>
                         <id>serenity-reports</id>
@@ -135,7 +141,42 @@
                         </goals>
                     </execution>
                 </executions>
+				<dependencies>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-core</artifactId>
+                        <version>${serenity.version}</version>
+                    </dependency>
+                </dependencies>		  
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+	        <id>cucumber</id>
+	            <build>
+	                <plugins>
+	                    <plugin>
+	                        <artifactId>maven-failsafe-plugin</artifactId>
+	                        <version>3.0.0-M5</version>
+	                        <configuration>
+	                            <includes>
+	                                <include>**/CucumberTestSuite.java</include>
+	                            </includes>
+	                            <parallel>methods</parallel>
+	                            <useUnlimitedThreads>true</useUnlimitedThreads>
+	                        </configuration>
+	                        <executions>
+	                            <execution>
+	                                <goals>
+	                                    <goal>integration-test</goal>
+	                                    <goal>verify</goal>
+	                                </goals>
+	                            </execution>
+	                        </executions>
+	                    </plugin>
+	                </plugins>
+	            </build>
+        </profile>
+    </profiles>
 </project>
